@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import { Post } from './models/Post';
+import axios from 'axios';
 
 dotenv.config();
 
@@ -62,11 +63,47 @@ const authenticateToken = (req: express.Request, res: express.Response, next: ex
   }
 };
 
+// Get users from users service
+app.get('/users', authenticateToken, async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+
+    console.log('Fetching users from users service...');
+    const response = await axios.get('http://localhost:3002/users', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    console.log('Users fetched successfully:', response.data);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error details:', {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message
+      });
+      return res.status(error.response?.status || 500).json({
+        message: 'Error fetching users',
+        details: error.response?.data || error.message
+      });
+    }
+    res.status(500).json({ message: 'Error fetching users' });
+  }
+});
+
 // Routes
 // Get all posts (public endpoint)
 app.get('/posts', async (req, res) => {
   try {
-    const posts = await Post.find({ isActive: true }, 'title description tags author createdAt');
+    const posts = await Post.find({ isActive: true })
+      .populate('author', 'name email')
+      .select('title description tags author createdAt');
     res.json(posts);
   } catch (error) {
     console.error('Error fetching posts:', error);
@@ -80,13 +117,14 @@ app.get('/posts/:id', async (req, res) => {
     const postId = req.params.id;
     console.log('Fetching post with ID:', postId);
     
-    // Validate MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(postId)) {
       console.log('Invalid post ID format');
       return res.status(400).json({ message: 'Invalid post ID format' });
     }
 
-    const post = await Post.findById(postId).lean();
+    const post = await Post.findById(postId)
+      .populate('author', 'name email')
+      .lean();
     console.log('Found post:', post);
     
     if (!post) {
@@ -94,10 +132,13 @@ app.get('/posts/:id', async (req, res) => {
       return res.status(404).json({ message: 'Post not found' });
     }
     
-    // Convert ObjectId to string for JSON serialization
     const serializedPost = {
       ...post,
       _id: post._id.toString(),
+      author: {
+        ...post.author,
+        _id: post.author._id.toString()
+      },
       createdAt: post.createdAt.toISOString(),
       updatedAt: post.updatedAt.toISOString()
     };
@@ -116,7 +157,9 @@ app.get('/posts/:id', async (req, res) => {
 // Get all posts (including inactive ones)
 app.get('/admin/posts', authenticateToken, async (req, res) => {
   try {
-    const posts = await Post.find({}, '-__v');
+    const posts = await Post.find({})
+      .populate('author', 'name email')
+      .select('-__v');
     res.json(posts);
   } catch (error) {
     console.error('Error fetching posts:', error);
@@ -128,9 +171,20 @@ app.get('/admin/posts', authenticateToken, async (req, res) => {
 app.post('/admin/posts', authenticateToken, async (req, res) => {
   try {
     const { title, tags, description, content, author, isActive } = req.body;
-    const post = new Post({ title, tags, description, content, author, isActive });
+    const post = new Post({ 
+      title, 
+      tags, 
+      description, 
+      content, 
+      author, 
+      isActive 
+    });
     await post.save();
-    res.status(201).json(post);
+    
+    const populatedPost = await Post.findById(post._id)
+      .populate('author', 'name email');
+    
+    res.status(201).json(populatedPost);
   } catch (error) {
     console.error('Error creating post:', error);
     res.status(500).json({ message: 'Error creating post' });
@@ -145,7 +199,7 @@ app.put('/admin/posts/:id', authenticateToken, async (req, res) => {
       req.params.id,
       { title, tags, description, content, author, isActive },
       { new: true }
-    );
+    ).populate('author', 'name email');
 
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });

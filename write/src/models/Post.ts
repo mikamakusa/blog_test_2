@@ -5,7 +5,7 @@ export interface IPost extends Document {
   tags: string[];
   description: string;
   content: string;
-  author: string;
+  author: mongoose.Types.ObjectId;
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -31,9 +31,9 @@ const postSchema = new Schema<IPost>({
     required: true
   },
   author: {
-    type: String,
-    required: true,
-    trim: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   },
   isActive: {
     type: Boolean,

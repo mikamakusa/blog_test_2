@@ -30,3 +30,9 @@
 {"level":"info","message":"Connected to MongoDB","timestamp":"2025-06-04T14:27:09.653Z"}
 {"level":"info","message":"Logs service listening on port 3006","timestamp":"2025-06-04T14:37:13.070Z"}
 {"level":"info","message":"Connected to MongoDB","timestamp":"2025-06-04T14:37:13.218Z"}
+{"level":"info","message":"Logs service listening on port 3006","timestamp":"2025-06-04T15:11:42.030Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-06-04T15:11:42.311Z"}
+{"level":"info","message":"Logs service listening on port 3006","timestamp":"2025-06-04T15:16:51.131Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-06-04T15:16:51.223Z"}
+{"level":"info","message":"Logs service listening on port 3006","timestamp":"2025-06-04T15:21:23.225Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-06-04T15:21:23.344Z"}
