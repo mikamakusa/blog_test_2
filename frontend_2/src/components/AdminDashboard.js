@@ -26,7 +26,7 @@ const AdminDashboard = () => {
             </Box>
 
             <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={4}>
                     <Paper sx={{ p: 3 }}>
                         <Typography variant="h6" gutterBottom>
                             User Management
@@ -37,14 +37,14 @@ const AdminDashboard = () => {
                         <Button
                             variant="contained"
                             color="primary"
-                            onClick={() => navigate('/users')}
+                            onClick={() => navigate('/admin/users')}
                         >
                             Manage Users
                         </Button>
                     </Paper>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={4}>
                     <Paper sx={{ p: 3 }}>
                         <Typography variant="h6" gutterBottom>
                             Post Management
@@ -55,9 +55,27 @@ const AdminDashboard = () => {
                         <Button
                             variant="contained"
                             color="primary"
-                            onClick={() => navigate('/posts')}
+                            onClick={() => navigate('/admin/posts')}
                         >
                             Manage Posts
+                        </Button>
+                    </Paper>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <Paper sx={{ p: 3 }}>
+                        <Typography variant="h6" gutterBottom>
+                            Ad Management
+                        </Typography>
+                        <Typography variant="body1" paragraph>
+                            Manage advertisements and promotional content.
+                        </Typography>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => navigate('/admin/ads')}
+                        >
+                            Manage Ads
                         </Button>
                     </Paper>
                 </Grid>

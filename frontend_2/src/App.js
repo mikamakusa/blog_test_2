@@ -8,6 +8,8 @@ import UserManagement from './components/UserManagement';
 import PostManagement from './components/PostManagement';
 import AdminDashboard from './components/AdminDashboard';
 import BlogHome from './components/BlogHome';
+import BlogPost from './components/BlogPost';
+import AdManagement from './components/AdManagement';
 import { ThemeProvider, createTheme } from '@mui/material';
 
 const theme = createTheme({
@@ -29,6 +31,7 @@ function App() {
                     <Routes>
                         {/* Public routes */}
                         <Route path="/" element={<BlogHome />} />
+                        <Route path="/blog/:id" element={<BlogPost />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/auth/callback" element={<AuthCallback />} />
 
@@ -54,6 +57,14 @@ function App() {
                             element={
                                 <ProtectedRoute>
                                     <PostManagement />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/admin/ads"
+                            element={
+                                <ProtectedRoute>
+                                    <AdManagement />
                                 </ProtectedRoute>
                             }
                         />
