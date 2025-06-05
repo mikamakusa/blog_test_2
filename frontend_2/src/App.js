@@ -46,7 +46,7 @@ function App() {
                             }
                         />
                         <Route
-                            path="/users"
+                            path="/admin/users"
                             element={
                                 <ProtectedRoute>
                                     <UserManagement />
@@ -54,7 +54,7 @@ function App() {
                             }
                         />
                         <Route
-                            path="/posts"
+                            path="/admin/posts"
                             element={
                                 <ProtectedRoute>
                                     <PostManagement />

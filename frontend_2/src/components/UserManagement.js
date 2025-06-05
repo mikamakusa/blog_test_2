@@ -17,10 +17,12 @@ import {
     TextField,
     FormControlLabel,
     Checkbox,
-    IconButton
+    IconButton,
+    Box
 } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
@@ -32,6 +34,7 @@ const UserManagement = () => {
         password: '',
         isActive: true
     });
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchUsers();
@@ -100,9 +103,19 @@ const UserManagement = () => {
 
     return (
         <Container>
-            <Typography variant="h4" sx={{ mt: 4, mb: 4 }}>
-                User Management
-            </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 4, mb: 4 }}>
+                <Typography variant="h4">
+                    User Management
+                </Typography>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => navigate('/admin')}
+                >
+                    Back to Dashboard
+                </Button>
+            </Box>
+
             <Button
                 variant="contained"
                 color="primary"
