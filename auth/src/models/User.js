@@ -31,10 +31,13 @@ const userSchema = new mongoose.Schema({
         unique: true,
         sparse: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
+    isActive: {
+        type: Boolean,
+        default: true
     }
+}, {
+    timestamps: true,
+    collection: 'blog_users' // Explicitly set the collection name
 });
 
 module.exports = mongoose.model('User', userSchema); 
