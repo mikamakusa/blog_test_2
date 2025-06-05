@@ -10,6 +10,7 @@ import AdminDashboard from './components/AdminDashboard';
 import BlogHome from './components/BlogHome';
 import BlogPost from './components/BlogPost';
 import AdManagement from './components/AdManagement';
+import MediaManagement from './components/MediaManagement';
 import { ThemeProvider, createTheme } from '@mui/material';
 
 const theme = createTheme({
@@ -65,6 +66,14 @@ function App() {
                             element={
                                 <ProtectedRoute>
                                     <AdManagement />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/admin/medias"
+                            element={
+                                <ProtectedRoute>
+                                    <MediaManagement />
                                 </ProtectedRoute>
                             }
                         />

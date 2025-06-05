@@ -79,6 +79,24 @@ const AdminDashboard = () => {
                         </Button>
                     </Paper>
                 </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <Paper sx={{ p: 3 }}>
+                        <Typography variant="h6" gutterBottom>
+                            Media Management
+                        </Typography>
+                        <Typography variant="body1" paragraph>
+                            Upload and manage media files and images.
+                        </Typography>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => navigate('/admin/medias')}
+                        >
+                            Manage Medias
+                        </Button>
+                    </Paper>
+                </Grid>
             </Grid>
         </Container>
     );
