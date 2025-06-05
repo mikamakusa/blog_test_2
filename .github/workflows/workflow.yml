@@ -54,5 +54,5 @@ jobs:
       - name: Build the frontend Docker image
         run: | 
           docker build . --file frontend_2/Dockerfile --tag blog-test-frontend:latest
-          docker tag blog-test-frontend:latest push mikamakusa/blog-test-frontend:latest
+          docker tag blog-test-frontend:latest mikamakusa/blog-test-frontend:latest
           docker push mikamakusa/blog-test-frontend:latest
