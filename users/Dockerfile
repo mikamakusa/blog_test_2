@@ -15,8 +15,6 @@ COPY --chown=nodejs:nodejs users/package*.json ./
 RUN npm install
 COPY --chown=nodejs:nodejs users/src ./src
 
-RUN npm run build
-
 FROM node:$NODE_VERSION
 
 WORKDIR /home/nodejs

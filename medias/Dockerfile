@@ -15,8 +15,6 @@ COPY --chown=nodejs:nodejs medias/package*.json ./
 RUN npm install
 COPY --chown=nodejs:nodejs medias/src ./src
 
-RUN npm run build
-
 FROM node:$NODE_VERSION
 
 WORKDIR /home/nodejs

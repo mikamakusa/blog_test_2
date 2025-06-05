@@ -15,8 +15,6 @@ COPY --chown=nodejs:nodejs ads/package*.json ./
 RUN npm install
 COPY --chown=nodejs:nodejs ads/src ./src
 
-RUN npm run build
-
 FROM node:$NODE_VERSION
 
 WORKDIR /home/nodejs
