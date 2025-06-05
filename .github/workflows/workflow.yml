@@ -23,29 +23,36 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Build the ads Docker image
         run: | 
-          docker build . --file ads/Dockerfile --tag mickamakusa/blog-test-ads-service:latest
+          docker build . --file ads/Dockerfile --tag blog-test-ads-service:latest
+          docker tag blog-test-ads-service:latest mikamakusa/blog-test-ads-service:latest
           docker push mikamakusa/blog-test-ads-service:latest
       - name: Build the auth Docker image
         run: | 
-          docker build . --file auth/Dockerfile --tag mickamakusa/blog-test-auth-service:latest
+          docker build . --file auth/Dockerfile --tag blog-test-auth-service:latest
+          docker tag blog-test-auth-service:latest mikamakusa/blog-test-auth-service:latest
           docker push mikamakusa/blog-test-auth-service:latest
       - name: Build the write Docker image
         run: | 
-          docker build . --file write/Dockerfile --tag mickamakusa/blog-test-write-service:latest
+          docker build . --file write/Dockerfile --tag blog-test-write-service:latest
+          docker tag blog-test-write-service:latest mikamakusa/blog-test-write-service:latest
           docker push mikamakusa/blog-test-write-service:latest
       - name: Build the medias Docker image
         run: | 
-          docker build . --file medias/Dockerfile --tag mickamakusa/blog-test-medias-service:latest
+          docker build . --file medias/Dockerfile --tag blog-test-medias-service:latest
+          docker tag blog-test-medias-service:latest mikamakusa/blog-test-medias-service:latest
           docker push mikamakusa/blog-test-medias-service:latest
       - name: Build the metrics Docker image
         run: | 
-          docker build . --file metrics/Dockerfile --tag mickamakusa/blog-test-metrics-service:latest
+          docker build . --file metrics/Dockerfile --tag blog-test-metrics-service:latest
+          docker tag blog-test-metrics-service:latest mikamakusa/blog-test-metrics-service:latest
           docker push mikamakusa/blog-test-metrics-service:latest
       - name: Build the users Docker image
         run: | 
-          docker build . --file users/Dockerfile --tag mickamakusa/blog-test-users-service:latest
+          docker build . --file users/Dockerfile --tag blog-test-users-service:latest
+          docker tag blog-test-users-service:latest mikamakusa/blog-test-users-service:latest
           docker push mikamakusa/blog-test-users-service:latest
       - name: Build the frontend Docker image
         run: | 
-          docker build . --file frontend_2/mickamakusa/Dockerfile --tag blog-test-frontend:latest
+          docker build . --file frontend_2/Dockerfile --tag blog-test-frontend:latest
+          docker tag --tag blog-test-frontend:latest push mikamakusa/blog-test-frontend:latest
           docker push mikamakusa/blog-test-frontend:latest
