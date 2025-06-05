@@ -5,93 +5,78 @@ import {
     Typography,
     Button,
     Box,
-    Paper,
-    Grid
+    Grid,
+    Paper
 } from '@mui/material';
-import { useAuth } from '../contexts/AuthContext';
+import Metrics from './Metrics';
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
-    const { user } = useAuth();
 
     return (
-        <Container>
-            <Box sx={{ mt: 4, mb: 4 }}>
-                <Typography variant="h4" gutterBottom>
-                    Admin Dashboard
-                </Typography>
-                <Typography variant="subtitle1" gutterBottom>
-                    Welcome, {user?.name || 'User'}!
-                </Typography>
-            </Box>
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            <Typography variant="h4" gutterBottom>
+                Admin Dashboard
+            </Typography>
+            
+            <Metrics />
 
             <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
-                    <Paper sx={{ p: 3 }}>
+                <Grid item xs={12} md={6}>
+                    <Paper sx={{ p: 2 }}>
                         <Typography variant="h6" gutterBottom>
                             User Management
-                        </Typography>
-                        <Typography variant="body1" paragraph>
-                            Manage user accounts, permissions, and access levels.
                         </Typography>
                         <Button
                             variant="contained"
                             color="primary"
                             onClick={() => navigate('/admin/users')}
+                            fullWidth
                         >
                             Manage Users
                         </Button>
                     </Paper>
                 </Grid>
-
-                <Grid item xs={12} md={4}>
-                    <Paper sx={{ p: 3 }}>
+                <Grid item xs={12} md={6}>
+                    <Paper sx={{ p: 2 }}>
                         <Typography variant="h6" gutterBottom>
                             Post Management
-                        </Typography>
-                        <Typography variant="body1" paragraph>
-                            Create, edit, and manage blog posts.
                         </Typography>
                         <Button
                             variant="contained"
                             color="primary"
                             onClick={() => navigate('/admin/posts')}
+                            fullWidth
                         >
                             Manage Posts
                         </Button>
                     </Paper>
                 </Grid>
-
-                <Grid item xs={12} md={4}>
-                    <Paper sx={{ p: 3 }}>
+                <Grid item xs={12} md={6}>
+                    <Paper sx={{ p: 2 }}>
                         <Typography variant="h6" gutterBottom>
-                            Ad Management
-                        </Typography>
-                        <Typography variant="body1" paragraph>
-                            Manage advertisements and promotional content.
+                            Advertisement Management
                         </Typography>
                         <Button
                             variant="contained"
                             color="primary"
                             onClick={() => navigate('/admin/ads')}
+                            fullWidth
                         >
                             Manage Ads
                         </Button>
                     </Paper>
                 </Grid>
-
-                <Grid item xs={12} md={4}>
-                    <Paper sx={{ p: 3 }}>
+                <Grid item xs={12} md={6}>
+                    <Paper sx={{ p: 2 }}>
                         <Typography variant="h6" gutterBottom>
                             Media Management
-                        </Typography>
-                        <Typography variant="body1" paragraph>
-                            Upload and manage media files and images.
                         </Typography>
                         <Button
                             variant="contained"
                             color="primary"
                             onClick={() => navigate('/admin/medias')}
+                            fullWidth
                         >
                             Manage Medias
                         </Button>
