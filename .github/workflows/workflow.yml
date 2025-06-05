@@ -1,0 +1,37 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: actions/checkout@v4
+      - name: check nodejs version - must be ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Build the ads Docker image
+        run: docker build . --file ads/Dockerfile --tag blog-test-ads-service:latest
+      - name: Build the auth Docker image
+        run: docker build . --file auth/Dockerfile --tag blog-test-auth-service:latest
+      - name: Build the write Docker image
+        run: docker build . --file write/Dockerfile --tag blog-test-write-service:latest
+      - name: Build the medias Docker image
+        run: docker build . --file medias/Dockerfile --tag blog-test-medias-service:latest
+      - name: Build the metrics Docker image
+        run: docker build . --file metrics/Dockerfile --tag blog-test-metrics-service:latest
+      - name: Build the users Docker image
+        run: docker build . --file users/Dockerfile --tag blog-test-users-service:latest
+      - name: Build the frontend Docker image
+        run: docker build . --file frontend_2/Dockerfile --tag blog-test-frontend:latest

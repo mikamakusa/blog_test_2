@@ -11,9 +11,9 @@ USER nodejs
 
 WORKDIR /home/nodejs
 
-COPY --chown=nodejs:nodejs ads-service/package*.json ./
+COPY --chown=nodejs:nodejs metrics/package*.json ./
 RUN npm install
-COPY --chown=nodejs:nodejs ads-service/src ./src
+COPY --chown=nodejs:nodejs metrics/src ./src
 
 RUN npm run build
 

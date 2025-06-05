@@ -11,10 +11,10 @@ USER nodejs
 
 WORKDIR /home/nodejs
 
-COPY --chown=nodejs:nodejs frontend/package*.json ./
+COPY --chown=nodejs:nodejs frontend_2/package*.json ./
 RUN npm install --force --legacy-peer-deps
-COPY --chown=nodejs:nodejs frontend/src ./src
-COPY --chown=nodejs:nodejs frontend/public ./
+COPY --chown=nodejs:nodejs frontend_2/src ./src
+COPY --chown=nodejs:nodejs frontend_2/public ./
 
 RUN npm run build
 
