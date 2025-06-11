@@ -11,9 +11,13 @@ USER nodejs
 
 WORKDIR /home/nodejs
 
-COPY --chown=nodejs:nodejs ads/package*.json ./
+COPY --chown=nodejs:nodejs events/package*.json ./
 RUN npm install
-COPY --chown=nodejs:nodejs ads/src ./src
+COPY --chown=nodejs:nodejs events/src ./src
+COPY --chown=nodejs:nodejs events/controllers ./controllers
+COPY --chown=nodejs:nodejs events/models ./models
+COPY --chown=nodejs:nodejs events/routes ./routes
+COPY --chown=nodejs:nodejs events/index.js ./index.js
 
 FROM node:$NODE_VERSION
 
