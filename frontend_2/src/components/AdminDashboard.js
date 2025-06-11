@@ -82,6 +82,21 @@ const AdminDashboard = () => {
                         </Button>
                     </Paper>
                 </Grid>
+                <Grid item xs={12} md={6}>
+                    <Paper sx={{ p: 2 }}>
+                        <Typography variant="h6" gutterBottom>
+                            Events Management
+                        </Typography>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => navigate('/admin/events')}
+                            fullWidth
+                        >
+                            Manage Events
+                        </Button>
+                    </Paper>
+                </Grid>
             </Grid>
         </Container>
     );

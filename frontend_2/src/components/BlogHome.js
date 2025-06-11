@@ -11,12 +11,15 @@ import {
     AppBar,
     Toolbar,
     CircularProgress,
-    Alert
+    Alert,
+    Paper
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import { useAuth } from '../contexts/AuthContext';
+import EventsCalendar from './EventsCalendar';
 
 const MarkdownContent = ({ content }) => {
     if (!content) return null;
@@ -28,6 +31,17 @@ const MarkdownContent = ({ content }) => {
 
     return <ReactMarkdown>{truncatedContent}</ReactMarkdown>;
 };
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: (theme.vars ?? theme).palette.text.secondary,
+    ...theme.applyStyles('dark', {
+      backgroundColor: '#1A2027',
+    }),
+  }));
 
 const BlogHome = () => {
     const [posts, setPosts] = useState([]);
@@ -92,88 +106,101 @@ const BlogHome = () => {
                 </Toolbar>
             </AppBar>
 
-            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                <Typography variant="h3" component="h1" gutterBottom align="center">
-                    Blog Posts
-                </Typography>
+            <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+                <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                    <Grid size={4}>
+                        <Item>
+                            <EventsCalendar />
+                        </Item>
+                    </Grid>
+                
+                    <Grid size={8}>
+                        <Item>
+                            <Typography variant="h3" component="h1" gutterBottom align="center">
+                                Blog Posts
+                            </Typography>
 
-                <Grid container spacing={4}>
-                    {posts.map((post) => (
-                        <Grid item key={post._id} xs={12} md={6}>
-                            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                                <CardContent sx={{ flexGrow: 1 }}>
-                                    <Typography variant="h5" component="h2" gutterBottom>
-                                        {post.title}
-                                    </Typography>
-                                    
-                                    <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-                                        By {post.author?.name || 'Unknown'} • {new Date(post.createdAt).toLocaleDateString()}
-                                    </Typography>
+                            <Grid container spacing={4}>
+                                {posts.map((post) => (
+                                    <Grid item key={post._id} xs={12} md={6}>
+                                        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                                            <CardContent sx={{ flexGrow: 1 }}>
+                                                <Typography variant="h5" component="h2" gutterBottom>
+                                                    {post.title}
+                                                </Typography>
+                                                
+                                                <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+                                                    By {post.author?.name || 'Unknown'} • {new Date(post.createdAt).toLocaleDateString()}
+                                                </Typography>
 
-                                    <Typography variant="h6" gutterBottom>
-                                        {post.description}
-                                    </Typography>
+                                                <Typography variant="h6" gutterBottom>
+                                                    {post.description}
+                                                </Typography>
 
-                                    <Box sx={{ 
-                                        '& img': { maxWidth: '100%', height: 'auto' },
-                                        '& pre': { 
-                                            backgroundColor: '#f5f5f5',
-                                            padding: '1rem',
-                                            borderRadius: '4px',
-                                            overflowX: 'auto'
-                                        },
-                                        '& code': {
-                                            backgroundColor: '#f5f5f5',
-                                            padding: '0.2rem 0.4rem',
-                                            borderRadius: '4px'
-                                        }
-                                    }}>
-                                        <MarkdownContent content={post.content} />
-                                    </Box>
-                                </CardContent>
-                                <CardActions>
-                                    <Button 
-                                        size="small" 
-                                        color="primary"
-                                        onClick={() => navigate(`/blog/${post._id}`)}
-                                    >
-                                        Read More
-                                    </Button>
-                                </CardActions>
-                            </Card>
-                        </Grid>
-                    ))}
-                </Grid>
-
-                {ads.length > 0 && (
-                    <Box sx={{ mt: 8, mb: 4 }}>
-                        <Typography variant="h5" gutterBottom align="center">
-                            Sponsored Content
-                        </Typography>
-                        <Grid container spacing={2} justifyContent="center">
-                            {ads.map((ad) => (
-                                <Grid item key={ad._id}>
-                                    <a 
-                                        href={ad.url} 
-                                        target="_blank" 
-                                        rel="noopener noreferrer"
-                                        style={{ textDecoration: 'none' }}
-                                    >
-                                        <img 
-                                            src={`http://localhost:5003${ad.image}`}
-                                            alt={ad.title}
-                                            style={{ 
-                                                maxWidth: '200px',
-                                                maxHeight: '100px',
-                                                objectFit: 'contain'
-                                            }}
-                                        />
-                                    </a>
+                                                <Box sx={{ 
+                                                    '& img': { maxWidth: '100%', height: 'auto' },
+                                                    '& pre': { 
+                                                        backgroundColor: '#f5f5f5',
+                                                        padding: '1rem',
+                                                        borderRadius: '4px',
+                                                        overflowX: 'auto'
+                                                    },
+                                                    '& code': {
+                                                        backgroundColor: '#f5f5f5',
+                                                        padding: '0.2rem 0.4rem',
+                                                        borderRadius: '4px'
+                                                    }
+                                                }}>
+                                                    <MarkdownContent content={post.content} />
+                                                </Box>
+                                            </CardContent>
+                                            <CardActions>
+                                                <Button 
+                                                    size="small" 
+                                                    color="primary"
+                                                    onClick={() => navigate(`/blog/${post._id}`)}
+                                                >
+                                                    Read More
+                                                </Button>
+                                            </CardActions>
+                                        </Card>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Item>
+                        <item>
+                        {ads.length > 0 && (
+                            <Box sx={{ mt: 8, mb: 4 }}>
+                                <Typography variant="h5" gutterBottom align="center">
+                                    Sponsored Content
+                                </Typography>
+                                <Grid container spacing={2} justifyContent="center">
+                                    {ads.map((ad) => (
+                                        <Grid item key={ad._id}>
+                                            <a 
+                                                href={ad.url} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                style={{ textDecoration: 'none' }}
+                                            >
+                                                <img 
+                                                    src={`http://localhost:5003${ad.image}`}
+                                                    alt={ad.title}
+                                                    style={{ 
+                                                        maxWidth: '200px',
+                                                        maxHeight: '100px',
+                                                        objectFit: 'contain'
+                                                    }}
+                                                />
+                                            </a>
+                                        </Grid>
+                                    ))}
                                 </Grid>
-                            ))}
-                        </Grid>
-                    </Box>
-                )}
+                            </Box>
+                        )}
+                        </item>
+                    </Grid>
+                </Grid>
             </Container>
         </>
     );

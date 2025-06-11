@@ -11,6 +11,7 @@ import BlogHome from './components/BlogHome';
 import BlogPost from './components/BlogPost';
 import AdManagement from './components/AdManagement';
 import MediaManagement from './components/MediaManagement';
+import Events from './components/Events';
 import { ThemeProvider, createTheme } from '@mui/material';
 
 const theme = createTheme({
@@ -74,6 +75,14 @@ function App() {
                             element={
                                 <ProtectedRoute>
                                     <MediaManagement />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/admin/events"
+                            element={
+                                <ProtectedRoute>
+                                    <Events />
                                 </ProtectedRoute>
                             }
                         />

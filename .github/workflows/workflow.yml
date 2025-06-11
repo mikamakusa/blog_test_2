@@ -56,3 +56,8 @@ jobs:
           docker build . --file frontend_2/Dockerfile --tag blog-test-frontend:latest
           docker tag blog-test-frontend:latest mikamakusa/blog-test-frontend:latest
           docker push mikamakusa/blog-test-frontend:latest
+      - name: Build the events Docker image
+        run: | 
+          docker build . --file events/Dockerfile --tag blog-test-events-service:latest
+          docker tag blog-test-events-service:latest mikamakusa/blog-test-events-service:latest
+          docker push mikamakusa/blog-test-events-service:latest
