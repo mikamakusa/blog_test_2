@@ -5,59 +5,235 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-ads-docker:
     runs-on: ubuntu-latest
+    outputs:
+      ads_change: ${{ steps.filter.outputs.workflows }}
     strategy:
       matrix:
         node-version: [22.x]
     steps:
-      - name: Login to Docker Hub
+      - name: Login to Docker
         uses: docker/login-action@v3
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            workflows:
+              - 'ads'
       - name: check nodejs version - must be ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
       - name: Build the ads Docker image
-        run: | 
+        if: steps.filter.outputs.workflows == 'true'
+        run: |
           docker build . --file ads/Dockerfile --tag blog-test-ads-service:latest
           docker tag blog-test-ads-service:latest mikamakusa/blog-test-ads-service:latest
           docker push mikamakusa/blog-test-ads-service:latest
-      - name: Build the auth Docker image
-        run: | 
-          docker build . --file auth/Dockerfile --tag blog-test-auth-service:latest
-          docker tag blog-test-auth-service:latest mikamakusa/blog-test-auth-service:latest
-          docker push mikamakusa/blog-test-auth-service:latest
-      - name: Build the write Docker image
-        run: | 
+  build-auth-docker:
+    runs-on: ubuntu-latest
+    outputs:
+      ads_change: ${{ steps.filter.outputs.workflows }}
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - name: Login to Docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            workflows:
+              - 'auth'
+      - name: check nodejs version - must be ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Build the ads Docker image
+        if: steps.filter.outputs.workflows == 'true'
+        run: |
           docker build . --file write/Dockerfile --tag blog-test-write-service:latest
           docker tag blog-test-write-service:latest mikamakusa/blog-test-write-service:latest
           docker push mikamakusa/blog-test-write-service:latest
-      - name: Build the medias Docker image
-        run: | 
+  build-write-docker:
+    runs-on: ubuntu-latest
+    outputs:
+      ads_change: ${{ steps.filter.outputs.workflows }}
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - name: Login to Docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            workflows:
+              - 'write'
+      - name: check nodejs version - must be ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Build the ads Docker image
+        if: steps.filter.outputs.workflows == 'true'
+        run: |
+          docker build . --file write/Dockerfile --tag blog-test-write-service:latest
+          docker tag blog-test-write-service:latest mikamakusa/blog-test-write-service:latest
+          docker push mikamakusa/blog-test-write-service:latest
+  build-medias-docker:
+    runs-on: ubuntu-latest
+    outputs:
+      ads_change: ${{ steps.filter.outputs.workflows }}
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - name: Login to Docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            workflows:
+              - 'medias'
+      - name: check nodejs version - must be ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Build the ads Docker image
+        if: steps.filter.outputs.workflows == 'true'
+        run: |
           docker build . --file medias/Dockerfile --tag blog-test-medias-service:latest
           docker tag blog-test-medias-service:latest mikamakusa/blog-test-medias-service:latest
           docker push mikamakusa/blog-test-medias-service:latest
-      - name: Build the metrics Docker image
-        run: | 
+  build-metrics-docker:
+    runs-on: ubuntu-latest
+    outputs:
+      ads_change: ${{ steps.filter.outputs.workflows }}
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - name: Login to Docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            workflows:
+              - 'metrics'
+      - name: check nodejs version - must be ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Build the ads Docker image
+        if: steps.filter.outputs.workflows == 'true'
+        run: |
           docker build . --file metrics/Dockerfile --tag blog-test-metrics-service:latest
           docker tag blog-test-metrics-service:latest mikamakusa/blog-test-metrics-service:latest
           docker push mikamakusa/blog-test-metrics-service:latest
-      - name: Build the users Docker image
-        run: | 
+  build-users-docker:
+    runs-on: ubuntu-latest
+    outputs:
+      ads_change: ${{ steps.filter.outputs.workflows }}
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - name: Login to Docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            workflows:
+              - 'users'
+      - name: check nodejs version - must be ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Build the ads Docker image
+        if: steps.filter.outputs.workflows == 'true'
+        run: |
           docker build . --file users/Dockerfile --tag blog-test-users-service:latest
           docker tag blog-test-users-service:latest mikamakusa/blog-test-users-service:latest
           docker push mikamakusa/blog-test-users-service:latest
-      - name: Build the frontend Docker image
-        run: | 
-          docker build . --file frontend_2/Dockerfile --tag blog-test-frontend:latest
-          docker tag blog-test-frontend:latest mikamakusa/blog-test-frontend:latest
-          docker push mikamakusa/blog-test-frontend:latest
-      - name: Build the events Docker image
-        run: | 
+  build-events-docker:
+    runs-on: ubuntu-latest
+    outputs:
+      ads_change: ${{ steps.filter.outputs.workflows }}
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - name: Login to Docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            workflows:
+              - 'events'
+      - name: check nodejs version - must be ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Build the ads Docker image
+        if: steps.filter.outputs.workflows == 'true'
+        run: |
           docker build . --file events/Dockerfile --tag blog-test-events-service:latest
           docker tag blog-test-events-service:latest mikamakusa/blog-test-events-service:latest
           docker push mikamakusa/blog-test-events-service:latest
+  build-frontend-docker:
+    runs-on: ubuntu-latest
+    outputs:
+      ads_change: ${{ steps.filter.outputs.workflows }}
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - name: Login to Docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            workflows:
+              - 'frontend_2'
+      - name: check nodejs version - must be ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Build the ads Docker image
+        if: steps.filter.outputs.workflows == 'true'
+        run: |
+          docker build . --file frontend_2/Dockerfile --tag blog-test-frontend_2-service:latest
+          docker tag blog-test-frontend_2-service:latest mikamakusa/blog-test-frontend_2-service:latest
+          docker push mikamakusa/blog-test-frontend_2-service:latest
