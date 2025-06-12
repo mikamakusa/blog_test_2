@@ -20,6 +20,7 @@ import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import { useAuth } from '../contexts/AuthContext';
 import EventsCalendar from './EventsCalendar';
+import PollDisplay from './PollDisplay';
 
 const MarkdownContent = ({ content }) => {
     if (!content) return null;
@@ -111,6 +112,9 @@ const BlogHome = () => {
                     <Grid size={4}>
                         <Item>
                             <EventsCalendar />
+                        </Item>
+                        <Item sx={{ mt: 2 }}>
+                            <PollDisplay />
                         </Item>
                     </Grid>
                 

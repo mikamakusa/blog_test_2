@@ -61,3 +61,8 @@ jobs:
           docker build . --file events/Dockerfile --tag blog-test-events-service:latest
           docker tag blog-test-events-service:latest mikamakusa/blog-test-events-service:latest
           docker push mikamakusa/blog-test-events-service:latest
+      - name: Build the polls Docker image
+        run: |
+          docker build . --file polls/Dockerfile --tag blog-test-polls-service:latest
+          docker tag blog-test-polls-service:latest mikamakusa/blog-test-polls-service:latest
+          docker push mikamakusa/blog-test-polls-service:latest

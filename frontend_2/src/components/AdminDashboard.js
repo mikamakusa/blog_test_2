@@ -97,6 +97,21 @@ const AdminDashboard = () => {
                         </Button>
                     </Paper>
                 </Grid>
+                <Grid item xs={12} md={6}>
+                    <Paper sx={{ p: 2 }}>
+                        <Typography variant="h6" gutterBottom>
+                            Poll Management
+                        </Typography>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => navigate('/admin/polls')}
+                            fullWidth
+                        >
+                            Manage Polls
+                        </Button>
+                    </Paper>
+                </Grid>
             </Grid>
         </Container>
     );

@@ -12,6 +12,7 @@ import BlogPost from './components/BlogPost';
 import AdManagement from './components/AdManagement';
 import MediaManagement from './components/MediaManagement';
 import Events from './components/Events';
+import PollManagement from './components/PollManagement';
 import { ThemeProvider, createTheme } from '@mui/material';
 
 const theme = createTheme({
@@ -83,6 +84,14 @@ function App() {
                             element={
                                 <ProtectedRoute>
                                     <Events />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/admin/polls"
+                            element={
+                                <ProtectedRoute>
+                                    <PollManagement />
                                 </ProtectedRoute>
                             }
                         />
