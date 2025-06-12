@@ -87,6 +87,13 @@ const Metrics = () => {
                     subtitle={`${metrics?.ads?.active || 0} active, ${metrics?.ads?.inactive || 0} inactive`}
                 />
             </Grid>
+            <Grid item xs={12} md={2}>
+                <MetricCard
+                    title="Polls"
+                    value={metrics?.polls?.total || 0}
+                    subtitle={`${metrics?.polls?.active || 0} active, ${metrics?.polls?.inactive || 0} inactive`}
+                />
+            </Grid>
         </Grid>
     );
 };

@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://blog-admin:password01@localhost:32768/blog-engine';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/';
 
 mongoose.connect(MONGODB_URI)
     .then(() => {

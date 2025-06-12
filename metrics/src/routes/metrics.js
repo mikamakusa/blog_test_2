@@ -30,6 +30,16 @@ router.get('/', async (req, res) => {
             }
         ]).toArray();
 
+        // Get polls count by status
+        const pollsByStatus = await db.collection('polls').aggregate([
+            {
+                $group: {
+                    _id: '$isActive',
+                    count: { $sum: 1}
+                }
+            }
+        ]).toArray();
+
         // Format the response
         const metrics = {
             posts: {
@@ -44,6 +54,11 @@ router.get('/', async (req, res) => {
                 active: adsByStatus.find(stat => stat._id === true)?.count || 0,
                 inactive: adsByStatus.find(stat => stat._id === false)?.count || 0,
                 total: adsByStatus.reduce((sum, stat) => sum + stat.count, 0)
+            },
+            polls: {
+                active: pollsByStatus.find(stat => stat._id === true)?.count || 0,
+                inactive: pollsByStatus.find(stat => stat._id === false)?.count || 0,
+                total: pollsByStatus.reduce((sum, stat) => sum + stat.count, 0)
             }
         };
 
