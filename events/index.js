@@ -17,7 +17,14 @@ app.use(cors({
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/blog_engine', {
+const MONGODB_HOST = process.env.MONGODB_HOST || 'localhost:27017';
+const MONGODB_USER = process.env.MONGODB_USER || 'admin';
+const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD || 'password';
+const MONGODB_DATABASE = process.env.MONGODB_DATABASE || 'database';
+const MONGODB_URI = `mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOST}/${MONGODB_DATABASE}`
+
+// Connect to MongoDB
+mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })

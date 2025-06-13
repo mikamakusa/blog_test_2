@@ -31,8 +31,15 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Connect to MongoDB
+const MONGODB_HOST = process.env.MONGODB_HOST || 'localhost:27017';
+const MONGODB_USER = process.env.MONGODB_USER || 'admin';
+const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD || 'password';
+const MONGODB_DATABASE = process.env.MONGODB_DATABASE || 'database';
+const MONGODB_URI = `mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOST}/${MONGODB_DATABASE}`
+
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/auth-service')
+mongoose.connect(MONGODB_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('MongoDB connection error:', err));
 
