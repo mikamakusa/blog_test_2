@@ -15,6 +15,7 @@ COPY --chown=nodejs:nodejs polls/package*.json ./
 RUN npm install
 COPY --chown=nodejs:nodejs polls/routes ./routes
 COPY --chown=nodejs:nodejs polls/models ./models
+COPY --chown=nodejs:nodejs polls/server.js ./server.js
 
 FROM node:$NODE_VERSION
 

@@ -1,9 +1,3 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: blog-test
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,19 +15,12 @@ spec:
     spec:
       containers:
         - name: microservice-ads-blog-test
-          image: mikamakusa/blog-test-ads-service:latest
-          resources:
-            requests:
-              memmory: "32Mi"
-              cpu: "100m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+          image: docker.io/mikamakusa/blog-test-ads-service:latest
           env:
             - name: PORT
               value: "5003"
             - name: MONGODB_HOST
-              value: "localhost:32768"
+              value: "10.107.211.34:27017"
             - name: MONGODB_DATABASE
               value: "blog-engine"
             - name: MONGODB_USER
@@ -62,14 +49,6 @@ spec:
             - containerPort: 5003
               name: http
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              port: http
-              path: /api/ads
-          readinessProbe:
-            httpGet:
-              port: http
-              path: /api/ads
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -88,19 +67,12 @@ spec:
     spec:
       containers:
         - name: microservice-auth-blog-test
-          image: mikamakusa/blog-test-auth-service
-          resources:
-            requests:
-              memmory: "32Mi"
-              cpu: "100m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+          image: docker.io/mikamakusa/blog-test-auth-service
           env:
             - name: PORT
               value: "5000"
             - name: MONGODB_HOST
-              value: "localhost:32768"
+              value: "10.107.211.34:27017"
             - name: MONGODB_DATABASE
               value: "blog-engine"
             - name: MONGODB_USER
@@ -129,14 +101,6 @@ spec:
             - containerPort: 5000
               name: http
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              port: http
-              path: /auth
-          readinessProbe:
-            httpGet:
-              port: http
-              path: /auth
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -155,19 +119,12 @@ spec:
     spec:
       containers:
         - name: microservice-events-blog-test
-          image: mikamakusa/blog-test-events-service
-          resources:
-            requests:
-              memmory: "32Mi"
-              cpu: "100m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+          image: docker.io/mikamakusa/blog-test-events-service
           env:
             - name: PORT
               value: "3001"
             - name: MONGODB_HOST
-              value: "localhost:32768"
+              value: "10.107.211.34:27017"
             - name: MONGODB_DATABASE
               value: "blog-engine"
             - name: MONGODB_USER
@@ -184,14 +141,6 @@ spec:
             - containerPort: 5000
               name: http
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              port: http
-              path: /api/events
-          readinessProbe:
-            httpGet:
-              port: http
-              path: /api/events
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -210,19 +159,12 @@ spec:
     spec:
       containers:
         - name: microservice-medias-blog-test
-          image: mikamakusa/blog-test-medias-service
-          resources:
-            requests:
-              memmory: "32Mi"
-              cpu: "100m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+          image: docker.io/mikamakusa/blog-test-medias-service
           env:
             - name: PORT
               value: "5004"
             - name: MONGODB_HOST
-              value: "localhost:32768"
+              value: "10.107.211.34:27017"
             - name: MONGODB_DATABASE
               value: "blog-engine"
             - name: MONGODB_USER
@@ -247,14 +189,6 @@ spec:
             - containerPort: 5004
               name: http
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              port: http
-              path: /api/medias
-          readinessProbe:
-            httpGet:
-              port: http
-              path: /api/medias
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -273,19 +207,12 @@ spec:
     spec:
       containers:
         - name: microservice-metrics-blog-test
-          image: mikamakusa/blog-test-metrics-service
-          resources:
-            requests:
-              memmory: "32Mi"
-              cpu: "100m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+          image: docker.io/mikamakusa/blog-test-metrics-service
           env:
             - name: PORT
               value: "5005"
             - name: MONGODB_HOST
-              value: "localhost:32768"
+              value: "10.107.211.34:27017"
             - name: MONGODB_DATABASE
               value: "blog-engine"
             - name: MONGODB_USER
@@ -314,14 +241,6 @@ spec:
             - containerPort: 5005
               name: http
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              port: http
-              path: /api/metrics
-          readinessProbe:
-            httpGet:
-              port: http
-              path: /api/metrics
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -340,19 +259,12 @@ spec:
     spec:
       containers:
         - name: microservice-polls-blog-test
-          image: mikamakusa/blog-test-polls-service
-          resources:
-            requests:
-              memmory: "32Mi"
-              cpu: "100m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+          image: docker.io/mikamakusa/blog-test-polls-service
           env:
             - name: PORT
               value: "5006"
             - name: MONGODB_HOST
-              value: "localhost:32768"
+              value: "10.107.211.34:27017"
             - name: MONGODB_DATABASE
               value: "blog-engine"
             - name: MONGODB_USER
@@ -371,14 +283,6 @@ spec:
             - containerPort: 5006
               name: http
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              port: http
-              path: /api/polls
-          readinessProbe:
-            httpGet:
-              port: http
-              path: /api/polls
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -397,19 +301,12 @@ spec:
     spec:
       containers:
         - name: microservice-users-blog-test
-          image: mikamakusa/blog-test-users-service
-          resources:
-            requests:
-              memmory: "32Mi"
-              cpu: "100m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+          image: docker.io/mikamakusa/blog-test-users-service
           env:
             - name: PORT
               value: "5001"
             - name: MONGODB_HOST
-              value: "localhost:32768"
+              value: "10.107.211.34:27017"
             - name: MONGODB_DATABASE
               value: "blog-engine"
             - name: MONGODB_USER
@@ -438,14 +335,6 @@ spec:
             - containerPort: 5001
               name: http
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              port: http
-              path: /api/users
-          readinessProbe:
-            httpGet:
-              port: http
-              path: /api/users
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -464,19 +353,12 @@ spec:
     spec:
       containers:
         - name: microservice-write-blog-test
-          image: mikamakusa/blog-test-write-service
-          resources:
-            requests:
-              memmory: "32Mi"
-              cpu: "100m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+          image: docker.io/mikamakusa/blog-test-write-service
           env:
             - name: PORT
               value: "5002"
             - name: MONGODB_HOST
-              value: "localhost:32768"
+              value: "10.107.211.34:27017"
             - name: MONGODB_DATABASE
               value: "blog-engine"
             - name: MONGODB_USER
@@ -505,14 +387,6 @@ spec:
             - containerPort: 5002
               name: http
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              port: http
-              path: /api/posts
-          readinessProbe:
-            httpGet:
-              port: http
-              path: /api/posts
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -531,14 +405,7 @@ spec:
     spec:
       containers:
         - name: microservice-frontend-blog-test
-          image: mikamakusa/blog-test-frontend-service
-          resources:
-            requests:
-              memmory: "32Mi"
-              cpu: "100m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+          image: docker.io/mikamakusa/blog-test-frontend-service
           ports:
             - containerPort: 3000
               name: http
@@ -700,12 +567,3 @@ spec:
         - podSelector:
             matchLabels:
               role: frontend
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: mongodb-credentials
-  namespace: blog-test
-data:
-  mongodb-user: ""
-  mongodb-password: ""
