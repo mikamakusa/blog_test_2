@@ -21,12 +21,9 @@ import ReactMarkdown from 'react-markdown';
 import { useAuth } from '../contexts/AuthContext';
 import EventsCalendar from './EventsCalendar';
 import PollDisplay from './PollDisplay';
-const dotenv = require('dotenv');
 
-dotenv.config();
-
-const ADS_URI = process.env.ADS_URI || 'localhost:5003';
-const POSTS_URI = process.env.POSTS_URI || 'localhost:5002';
+const ADS_URI = process.env.REACT_APP_ADS_URI || 'localhost:5003';
+const POSTS_URI = process.env.REACT_APP_POSTS_URI || 'localhost:5002';
 
 const MarkdownContent = ({ content }) => {
     if (!content) return null;

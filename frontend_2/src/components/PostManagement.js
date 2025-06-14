@@ -27,11 +27,8 @@ import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import { useAuth } from '../contexts/AuthContext';
-const dotenv = require('dotenv');
 
-dotenv.config();
-
-const POSTS_URI = process.env.POSTS_URI || 'localhost:5002';
+const POSTS_URI = process.env.REACT_APP_POSTS_URI || 'localhost:5002';
 
 const PostManagement = () => {
     const [posts, setPosts] = useState([]);

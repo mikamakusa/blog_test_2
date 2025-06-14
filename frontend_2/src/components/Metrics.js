@@ -7,11 +7,8 @@ import {
     CircularProgress
 } from '@mui/material';
 import axios from 'axios';
-const dotenv = require('dotenv');
 
-dotenv.config();
-
-const METRICS_URI = process.env.METRICS_URI || 'localhost:5005';
+const METRICS_URI = process.env.REACT_APP_METRICS_URI || 'localhost:5005';
 
 const MetricCard = ({ title, value, subtitle }) => (
     <Paper sx={{ p: 2, height: '100%' }}>

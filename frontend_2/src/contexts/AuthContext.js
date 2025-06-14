@@ -1,10 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-const dotenv = require('dotenv');
 
-dotenv.config();
-
-const AUTH_URI = process.env.AUTH_URI || 'localhost:5000';
+const AUTH_URI = process.env.REACT_APP_AUTH_URI || 'localhost:5000';
 
 const AuthContext = createContext(null);
 

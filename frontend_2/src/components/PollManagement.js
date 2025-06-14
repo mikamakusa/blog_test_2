@@ -18,11 +18,8 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
-const dotenv = require('dotenv');
 
-dotenv.config();
-
-const POLLS_URI = process.env.POLLS_URI || 'localhost:5006';
+const POLLS_URI = process.env.REACT_APP_POLLS_URI || 'localhost:5006';
 
 const PollManagement = () => {
     const [polls, setPolls] = useState([]);

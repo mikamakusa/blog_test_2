@@ -11,11 +11,8 @@ import {
 } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
-const dotenv = require('dotenv');
 
-dotenv.config();
-
-const POSTS_URI = process.env.POSTS_URI || 'localhost:5002';
+const POSTS_URI = process.env.REACT_APP_POSTS_URI || 'localhost:5002';
 
 const BlogPost = () => {
     const [post, setPost] = useState(null);

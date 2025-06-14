@@ -25,11 +25,8 @@ import {
 } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import axios from 'axios';
-const dotenv = require('dotenv');
 
-dotenv.config();
-
-const ADS_URI = process.env.ADS_URI || 'localhost:5003';
+const ADS_URI = process.env.REACT_APP_ADS_URI || 'localhost:5003';
 
 const AdManagement = () => {
     const [ads, setAds] = useState([]);

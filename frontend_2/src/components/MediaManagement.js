@@ -22,11 +22,8 @@ import {
 } from '@mui/material';
 import { Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material';
 import axios from 'axios';
-const dotenv = require('dotenv');
 
-dotenv.config();
-
-const MEDIAS_URI = process.env.MEDIAS_URI || 'localhost:5004';
+const MEDIAS_URI = process.env.REACT_APP_MEDIAS_URI || 'localhost:5004';
 
 const MediaManagement = () => {
     const [medias, setMedias] = useState([]);

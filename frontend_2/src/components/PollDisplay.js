@@ -11,11 +11,8 @@ import {
     Alert
 } from '@mui/material';
 import axios from 'axios';
-const dotenv = require('dotenv');
 
-dotenv.config();
-
-const POLLS_URI = process.env.POLLS_URI || 'localhost:5006';
+const POLLS_URI = process.env.REACT_APP_POLLS_URI || 'localhost:5006';
 
 const PollDisplay = () => {
     const [poll, setPoll] = useState(null);
