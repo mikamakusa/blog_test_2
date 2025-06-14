@@ -25,6 +25,10 @@ import PollDisplay from './PollDisplay';
 const ADS_URI = process.env.REACT_APP_ADS_URI || 'localhost:5003';
 const POSTS_URI = process.env.REACT_APP_POSTS_URI || 'localhost:5002';
 
+// Configure axios defaults
+axios.defaults.timeout = 5000; // 5 seconds timeout
+axios.defaults.headers.common['Cache-Control'] = 'no-cache';
+
 const MarkdownContent = ({ content }) => {
     if (!content) return null;
     
@@ -59,14 +63,47 @@ const BlogHome = () => {
         const fetchData = async () => {
             try {
                 const [postsResponse, adsResponse] = await Promise.all([
-                    axios.get(`http://${POSTS_URI}/api/posts/public`),
-                    axios.get(`http://${ADS_URI}/api/ads/public`)
+                    axios.get(`http://${POSTS_URI}/api/posts/public`, {
+                        timeout: 5000,
+                        validateStatus: function (status) {
+                            return status >= 200 && status < 500; // Accept any status less than 500
+                        }
+                    }),
+                    axios.get(`http://${ADS_URI}/api/ads/public`, {
+                        timeout: 5000,
+                        validateStatus: function (status) {
+                            return status >= 200 && status < 500;
+                        }
+                    })
                 ]);
-                setPosts(postsResponse.data);
-                setAds(adsResponse.data);
+
+                // Handle posts response
+                if (postsResponse.status === 200) {
+                    setPosts(postsResponse.data);
+                } else {
+                    console.warn('Posts service returned non-200 status:', postsResponse.status);
+                    setPosts([]);
+                }
+
+                // Handle ads response
+                if (adsResponse.status === 200) {
+                    setAds(adsResponse.data);
+                } else {
+                    console.warn('Ads service returned non-200 status:', adsResponse.status);
+                    setAds([]);
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
-                setError('Failed to load content. Please try again later.');
+                if (error.code === 'ECONNABORTED') {
+                    setError('Request timed out. Please check your connection and try again.');
+                } else if (error.code === 'ERR_NETWORK') {
+                    setError('Network error. Please check your connection and try again.');
+                } else {
+                    setError('Failed to load content. Please try again later.');
+                }
+                // Set empty arrays instead of leaving undefined
+                setPosts([]);
+                setAds([]);
             } finally {
                 setLoading(false);
             }

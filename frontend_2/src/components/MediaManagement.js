@@ -23,6 +23,10 @@ import {
 import { Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material';
 import axios from 'axios';
 
+// Configure axios defaults
+axios.defaults.timeout = 5000; // 5 seconds timeout
+axios.defaults.headers.common['Cache-Control'] = 'no-cache';
+
 const MEDIAS_URI = process.env.REACT_APP_MEDIAS_URI || 'localhost:5004';
 
 const MediaManagement = () => {

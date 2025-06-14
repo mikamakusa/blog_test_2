@@ -12,6 +12,10 @@ import {
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
 
+// Configure axios defaults
+axios.defaults.timeout = 5000; // 5 seconds timeout
+axios.defaults.headers.common['Cache-Control'] = 'no-cache';
+
 const POSTS_URI = process.env.REACT_APP_POSTS_URI || 'localhost:5002';
 
 const BlogPost = () => {

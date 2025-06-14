@@ -24,6 +24,10 @@ import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+// Configure axios defaults
+axios.defaults.timeout = 5000; // 5 seconds timeout
+axios.defaults.headers.common['Cache-Control'] = 'no-cache';
+
 const USERS_URI = process.env.REACT_APP_USERS_URI || 'localhost:5002';
 
 const UserManagement = () => {
