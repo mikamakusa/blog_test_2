@@ -20,8 +20,13 @@ import {
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import EventsCalendar from './EventsCalendar';
+const dotenv = require('dotenv');
 
-const API_BASE_URL = 'http://localhost:3001/api/events';
+dotenv.config();
+
+const EVENTS_URI = process.env.EVENTS_URI || 'localhost:3001';
+
+const API_BASE_URL = `http://${EVENTS_URI}/api/events`;
 
 const Events = () => {
     const [events, setEvents] = useState([]);

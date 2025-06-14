@@ -22,6 +22,11 @@ import {
 } from '@mui/material';
 import { Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material';
 import axios from 'axios';
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const MEDIAS_URI = process.env.MEDIAS_URI || 'localhost:5004';
 
 const MediaManagement = () => {
     const [medias, setMedias] = useState([]);
@@ -41,7 +46,7 @@ const MediaManagement = () => {
 
     const fetchFolders = async () => {
         try {
-            const response = await axios.get('http://localhost:5004/api/medias/folders');
+            const response = await axios.get(`http://${MEDIAS_URI}/api/medias/folders`);
             setFolders(response.data);
         } catch (error) {
             console.error('Error fetching folders:', error);
@@ -52,8 +57,8 @@ const MediaManagement = () => {
     const fetchMedias = async () => {
         try {
             const url = selectedFolder
-                ? `http://localhost:5004/api/medias?folder=${selectedFolder}`
-                : 'http://localhost:5004/api/medias';
+                ? `http://${MEDIAS_URI}/api/medias?folder=${selectedFolder}`
+                : `http://${MEDIAS_URI}/api/medias`;
             const response = await axios.get(url);
             setMedias(response.data);
         } catch (error) {
@@ -80,7 +85,7 @@ const MediaManagement = () => {
         formData.append('folder', newFolder || 'default');
 
         try {
-            await axios.post('http://localhost:5004/api/medias', formData, {
+            await axios.post(`http://${MEDIAS_URI}/api/medias`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -100,7 +105,7 @@ const MediaManagement = () => {
     const handleDelete = async (mediaId) => {
         if (window.confirm('Are you sure you want to delete this file?')) {
             try {
-                await axios.delete(`http://localhost:5004/api/medias/${mediaId}`);
+                await axios.delete(`http://${MEDIAS_URI}/api/medias/${mediaId}`);
                 setSuccess('File deleted successfully');
                 fetchMedias();
             } catch (error) {

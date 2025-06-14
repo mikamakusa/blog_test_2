@@ -25,6 +25,11 @@ import {
 } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import axios from 'axios';
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const ADS_URI = process.env.ADS_URI || 'localhost:5003';
 
 const AdManagement = () => {
     const [ads, setAds] = useState([]);
@@ -46,7 +51,7 @@ const AdManagement = () => {
 
     const fetchAds = async () => {
         try {
-            const response = await axios.get('http://localhost:5003/api/ads');
+            const response = await axios.get(`http://${ADS_URI}/api/ads`);
             setAds(response.data);
         } catch (error) {
             console.error('Error fetching ads:', error);
@@ -93,14 +98,14 @@ const AdManagement = () => {
             }
 
             if (editingAd) {
-                await axios.put(`http://localhost:5003/api/ads/${editingAd._id}`, formDataToSend, {
+                await axios.put(`http://${ADS_URI}/api/ads/${editingAd._id}`, formDataToSend, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 });
                 setSuccess('Ad updated successfully');
             } else {
-                await axios.post('http://localhost:5003/api/ads', formDataToSend, {
+                await axios.post(`http://${ADS_URI}/api/ads`, formDataToSend, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -118,7 +123,7 @@ const AdManagement = () => {
     const handleDelete = async (adId) => {
         if (window.confirm('Are you sure you want to delete this ad?')) {
             try {
-                await axios.delete(`http://localhost:5003/api/ads/${adId}`);
+                await axios.delete(`http://${ADS_URI}/api/ads/${adId}`);
                 setSuccess('Ad deleted successfully');
                 await fetchAds();
             } catch (error) {
@@ -192,7 +197,7 @@ const AdManagement = () => {
                                 <TableCell>{ad.url}</TableCell>
                                 <TableCell>
                                     <img 
-                                        src={`http://localhost:5003${ad.image}`} 
+                                        src={`http://${ADS_URI}${ad.image}`}
                                         alt={ad.title}
                                         style={{ maxWidth: '100px', maxHeight: '50px' }}
                                     />

@@ -7,6 +7,11 @@ import {
     CircularProgress
 } from '@mui/material';
 import axios from 'axios';
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const METRICS_URI = process.env.METRICS_URI || 'localhost:5005';
 
 const MetricCard = ({ title, value, subtitle }) => (
     <Paper sx={{ p: 2, height: '100%' }}>
@@ -32,7 +37,7 @@ const Metrics = () => {
     useEffect(() => {
         const fetchMetrics = async () => {
             try {
-                const response = await axios.get('http://localhost:5005/api/metrics');
+                const response = await axios.get(`http://${METRICS_URI}/api/metrics`);
                 setMetrics(response.data);
             } catch (error) {
                 console.error('Error fetching metrics:', error);

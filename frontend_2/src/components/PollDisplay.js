@@ -11,6 +11,11 @@ import {
     Alert
 } from '@mui/material';
 import axios from 'axios';
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const POLLS_URI = process.env.POLLS_URI || 'localhost:5006';
 
 const PollDisplay = () => {
     const [poll, setPoll] = useState(null);
@@ -25,7 +30,7 @@ const PollDisplay = () => {
 
     const fetchActivePoll = async () => {
         try {
-            const response = await axios.get('http://localhost:5006/api/polls/active');
+            const response = await axios.get(`http://${POLLS_URI}/api/polls/active`);
             setPoll(response.data);
             setLoading(false);
         } catch (error) {
@@ -38,7 +43,7 @@ const PollDisplay = () => {
         if (!selectedAnswer) return;
 
         try {
-            await axios.post(`http://localhost:5006/api/polls/${poll._id}/vote`, {
+            await axios.post(`http://${POLLS_URI}/api/polls/${poll._id}/vote`, {
                 answerIndex: selectedAnswer
             });
             setHasVoted(true);

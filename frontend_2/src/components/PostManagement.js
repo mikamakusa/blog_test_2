@@ -27,6 +27,11 @@ import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import { useAuth } from '../contexts/AuthContext';
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const POSTS_URI = process.env.POSTS_URI || 'localhost:5002';
 
 const PostManagement = () => {
     const [posts, setPosts] = useState([]);
@@ -50,8 +55,8 @@ const PostManagement = () => {
 
     const fetchPosts = async () => {
         try {
-            console.log('Fetching posts from:', 'http://localhost:5002/api/posts');
-            const response = await axios.get('http://localhost:5002/api/posts', {
+            console.log('Fetching posts from:', `http://${POSTS_URI}/api/posts`);
+            const response = await axios.get(`http://${POSTS_URI}/api/posts`, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -116,7 +121,7 @@ const PostManagement = () => {
             console.log('Form data:', formData); // Debug log
 
             if (editingPost) {
-                await axios.put(`http://localhost:5002/api/posts/${editingPost._id}`, formData);
+                await axios.put(`http://${POSTS_URI}/api/posts/${editingPost._id}`, formData);
                 setSuccess('Post updated successfully');
             } else {
                 const postData = {
@@ -129,7 +134,7 @@ const PostManagement = () => {
 
                 console.log('Post data being sent:', postData); // Debug log
                 
-                const response = await axios.post('http://localhost:5002/api/posts', postData, {
+                const response = await axios.post('http://${POSTS_URI}/api/posts', postData, {
                     headers: {
                         'Content-Type': 'application/json'
                     }
@@ -151,7 +156,7 @@ const PostManagement = () => {
     const handleDelete = async (postId) => {
         if (window.confirm('Are you sure you want to delete this post?')) {
             try {
-                await axios.delete(`http://localhost:5002/api/posts/${postId}`);
+                await axios.delete(`http://${POSTS_URI}/api/posts/${postId}`);
                 setSuccess('Post deleted successfully');
                 await fetchPosts(); // Refresh the posts list
             } catch (error) {

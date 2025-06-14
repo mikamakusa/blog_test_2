@@ -21,6 +21,12 @@ import ReactMarkdown from 'react-markdown';
 import { useAuth } from '../contexts/AuthContext';
 import EventsCalendar from './EventsCalendar';
 import PollDisplay from './PollDisplay';
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const ADS_URI = process.env.ADS_URI || 'localhost:5003';
+const POSTS_URI = process.env.POSTS_URI || 'localhost:5002';
 
 const MarkdownContent = ({ content }) => {
     if (!content) return null;
@@ -56,8 +62,8 @@ const BlogHome = () => {
         const fetchData = async () => {
             try {
                 const [postsResponse, adsResponse] = await Promise.all([
-                    axios.get('http://localhost:5002/api/posts/public'),
-                    axios.get('http://localhost:5003/api/ads/public')
+                    axios.get(`http://${POSTS_URI}/api/posts/public`),
+                    axios.get(`http://${ADS_URI}/api/ads/public`)
                 ]);
                 setPosts(postsResponse.data);
                 setAds(adsResponse.data);

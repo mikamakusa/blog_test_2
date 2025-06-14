@@ -23,6 +23,11 @@ import {
 import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const USERS_URI = process.env.USERS_URI || 'localhost:5002';
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
@@ -42,7 +47,7 @@ const UserManagement = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get('http://localhost:5001/api/users');
+            const response = await axios.get(`http://${USERS_URI}/api/users`);
             setUsers(response.data);
         } catch (error) {
             console.error('Error fetching users:', error);
@@ -79,9 +84,9 @@ const UserManagement = () => {
         e.preventDefault();
         try {
             if (editingUser) {
-                await axios.put(`http://localhost:5001/api/users/${editingUser._id}`, formData);
+                await axios.put(`http://${USERS_URI}/api/users/${editingUser._id}`, formData);
             } else {
-                await axios.post('http://localhost:5001/api/users', formData);
+                await axios.post(`http://${USERS_URI}/api/users`, formData);
             }
             fetchUsers();
             handleClose();
@@ -93,7 +98,7 @@ const UserManagement = () => {
     const handleDelete = async (userId) => {
         if (window.confirm('Are you sure you want to delete this user?')) {
             try {
-                await axios.delete(`http://localhost:5001/api/users/${userId}`);
+                await axios.delete(`http://${USERS_URI}/api/users/${userId}`);
                 fetchUsers();
             } catch (error) {
                 console.error('Error deleting user:', error);

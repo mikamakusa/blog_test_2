@@ -1,5 +1,10 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const AUTH_URI = process.env.AUTH_URI || 'localhost:5000';
 
 const AuthContext = createContext(null);
 
@@ -18,7 +23,7 @@ export const AuthProvider = ({ children }) => {
 
     const verifyToken = async (token) => {
         try {
-            const response = await axios.get('http://localhost:5000/auth/verify', {
+            const response = await axios.get(`http://${AUTH_URI}/auth/verify`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setUser(response.data.user);
@@ -37,7 +42,7 @@ export const AuthProvider = ({ children }) => {
                 throw new Error('Email and password are required');
             }
 
-            const response = await axios.post('http://localhost:5000/auth/login', {
+            const response = await axios.post(`http://${AUTH_URI}/auth/login`, {
                 email: email.trim(),
                 password: password
             }, {
@@ -64,7 +69,7 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (email, password, name) => {
         try {
-            const response = await axios.post('http://localhost:5000/auth/register', {
+            const response = await axios.post(`http://${AUTH_URI}/auth/register`, {
                 email,
                 password,
                 name
@@ -84,7 +89,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const googleLogin = () => {
-        window.location.href = 'http://localhost:5000/auth/google';
+        window.location.href = `http://${AUTH_URI}/auth/google`;
     };
 
     const value = {

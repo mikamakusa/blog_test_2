@@ -90,7 +90,7 @@ spec:
             - name: SESSION_SECRET
               value: "your-super-secret-session-key"
             - name: FRONTEND_URL
-              value: "http://localhost:3000"
+              value: "http://microservice-frontend-blog-test:3000"
             - name: GOOGLE_CLIENT_ID
               value: "your-google-client-id"
             - name: GOOGLE_CLIENT_SECRET
@@ -178,13 +178,19 @@ spec:
                   key: mongodb-password
                   name: mongodb-credentials
             - name: MINIO_ENDPOINT
-              value: "localhost"
+              value: "10.105.198.235"
             - name: MINIO_PORT
               value: "9000"
             - name: MINIO_ACCESS_KEY
-              value: "minioadmin"
+              valueFrom:
+                secretKeyRef:
+                  key: minio-access-key
+                  name: minio-credentials-2
             - name: MINIO_SECRET_KEY
-              value: "minioadmin"
+              valueFrom:
+                secretKeyRef:
+                  key: minio-secret-key
+                  name: minio-credentials-2
           ports:
             - containerPort: 5004
               name: http
@@ -324,7 +330,7 @@ spec:
             - name: SESSION_SECRET
               value: "your-super-secret-session-key"
             - name: FRONTEND_URL
-              value: "http://localhost:3000"
+              value: "http://microservice-frontend-blog-test:3000"
             - name: GOOGLE_CLIENT_ID
               value: "your-google-client-id"
             - name: GOOGLE_CLIENT_SECRET
@@ -405,7 +411,24 @@ spec:
     spec:
       containers:
         - name: microservice-frontend-blog-test
-          image: docker.io/mikamakusa/blog-test-frontend-service
+          image: docker.io/mikamakusa/blog-test-frontend
+          env:
+            - name: AUTH_URI
+              value: "microservice-auth-blog-test.blog-test.svc.cluster.local:5000"
+            - name: ADS_URI
+              value: "microservice-ads-blog-test.blog-test.svc.cluster.local:5003"
+            - name: POSTS_URI
+              value: "microservice-write-blog-test.blog-test.svc.cluster.local:5002"
+            - name: EVENTS_URI
+              value: "microservice-events-blog-test.blog-test.svc.cluster.local:3001"
+            - name: MEDIAS_URI
+              value: "microservice-medias-blog-test.blog-test.svc.cluster.local:5004"
+            - name: METRICS_URI
+              value: "microservice-metrics-blog-test.blog-test.svc.cluster.local:5005"
+            - name: POLLS_URI
+              value: "microservice-polls-blog-test.blog-test.svc.cluster.local:5006"
+            - name: USERS_URI
+              value: "microservice-users-blog-test.blog-test.svc.cluster.local:5001"
           ports:
             - containerPort: 3000
               name: http

@@ -18,6 +18,11 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const POLLS_URI = process.env.POLLS_URI || 'localhost:5006';
 
 const PollManagement = () => {
     const [polls, setPolls] = useState([]);
@@ -33,7 +38,7 @@ const PollManagement = () => {
 
     const fetchPolls = async () => {
         try {
-            const response = await axios.get('http://localhost:5006/api/polls');
+            const response = await axios.get(`http://${POLLS_URI}/api/polls`);
             setPolls(response.data);
         } catch (error) {
             setError('Failed to fetch polls');
@@ -63,7 +68,7 @@ const PollManagement = () => {
         }
 
         try {
-            await axios.post('http://localhost:5006/api/polls', {
+            await axios.post(`http://${POLLS_URI}/api/polls`, {
                 question,
                 answers: answers.map(text => ({ text, votes: 0 })),
                 isActive
@@ -80,7 +85,7 @@ const PollManagement = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:5006/api/polls/${id}`);
+            await axios.delete(`http://${POLLS_URI}/api/polls/${id}`);
             fetchPolls();
             setSuccess('Poll deleted successfully');
         } catch (error) {
@@ -90,7 +95,7 @@ const PollManagement = () => {
 
     const handleToggleActive = async (poll) => {
         try {
-            await axios.patch(`http://localhost:5006/api/polls/${poll._id}`, {
+            await axios.patch(`http://${POLLS_URI}/api/polls/${poll._id}`, {
                 isActive: !poll.isActive
             });
             fetchPolls();

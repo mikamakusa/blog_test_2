@@ -11,6 +11,11 @@ import {
 } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const POSTS_URI = process.env.POSTS_URI || 'localhost:5002';
 
 const BlogPost = () => {
     const [post, setPost] = useState(null);
@@ -22,7 +27,7 @@ const BlogPost = () => {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await axios.get(`http://localhost:5002/api/posts/${id}`);
+                const response = await axios.get(`http://${POSTS_URI}/api/posts/${id}`);
                 setPost(response.data);
             } catch (error) {
                 console.error('Error fetching post:', error);
