@@ -8,10 +8,6 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 
-// Configure axios defaults
-axios.defaults.timeout = 5000; // 5 seconds timeout
-axios.defaults.headers.common['Cache-Control'] = 'no-cache';
-
 const METRICS_URI = process.env.REACT_APP_METRICS_URI || 'localhost:5005';
 
 const MetricCard = ({ title, value, subtitle }) => (
