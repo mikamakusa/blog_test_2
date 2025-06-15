@@ -3,12 +3,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const eventRoutes = require('./routes/eventRoutes');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const FRONTEND_URI = process.env.FRONTEND_URI || 'localhost:3001'
 
 const app = express();
 
 // CORS configuration
 app.use(cors({
-    origin: 'http://localhost:3000', // Frontend URL
+    origin: `http://${FRONTEND_URI}`, // Frontend URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type']
 }));
