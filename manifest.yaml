@@ -16,6 +16,7 @@ spec:
       containers:
         - name: microservice-ads-blog-test
           image: docker.io/mikamakusa/blog-test-ads-service:latest
+          imagePullPolicy: Always
           env:
             - name: PORT
               value: "5003"
@@ -38,7 +39,7 @@ spec:
             - name: SESSION_SECRET
               value: "your-super-secret-session-key"
             - name: FRONTEND_URL
-              value: "http://localhost:3000"
+              value: "192.168.49.2:32312"
             - name: GOOGLE_CLIENT_ID
               value: "your-google-client-id"
             - name: GOOGLE_CLIENT_SECRET
@@ -68,6 +69,7 @@ spec:
       containers:
         - name: microservice-auth-blog-test
           image: docker.io/mikamakusa/blog-test-auth-service
+          imagePullPolicy: Always
           env:
             - name: PORT
               value: "5000"
@@ -90,7 +92,7 @@ spec:
             - name: SESSION_SECRET
               value: "your-super-secret-session-key"
             - name: FRONTEND_URL
-              value: "http://microservice-frontend-blog-test:3000"
+              value: "http://192.168.49.2:32312"
             - name: GOOGLE_CLIENT_ID
               value: "your-google-client-id"
             - name: GOOGLE_CLIENT_SECRET
@@ -120,7 +122,10 @@ spec:
       containers:
         - name: microservice-events-blog-test
           image: docker.io/mikamakusa/blog-test-events-service
+          imagePullPolicy: Always
           env:
+            - name: FRONTEND_URI
+              value: "192.168.49.2:32312"
             - name: PORT
               value: "3001"
             - name: MONGODB_HOST
@@ -160,6 +165,7 @@ spec:
       containers:
         - name: microservice-medias-blog-test
           image: docker.io/mikamakusa/blog-test-medias-service
+          imagePullPolicy: Always
           env:
             - name: PORT
               value: "5004"
@@ -214,6 +220,7 @@ spec:
       containers:
         - name: microservice-metrics-blog-test
           image: docker.io/mikamakusa/blog-test-metrics-service
+          imagePullPolicy: Always
           env:
             - name: PORT
               value: "5005"
@@ -236,7 +243,7 @@ spec:
             - name: SESSION_SECRET
               value: "your-super-secret-session-key"
             - name: FRONTEND_URL
-              value: "http://localhost:3000"
+              value: "192.168.49.2:32312"
             - name: GOOGLE_CLIENT_ID
               value: "your-google-client-id"
             - name: GOOGLE_CLIENT_SECRET
@@ -266,6 +273,7 @@ spec:
       containers:
         - name: microservice-polls-blog-test
           image: docker.io/mikamakusa/blog-test-polls-service
+          imagePullPolicy: Always
           env:
             - name: PORT
               value: "5006"
@@ -308,6 +316,7 @@ spec:
       containers:
         - name: microservice-users-blog-test
           image: docker.io/mikamakusa/blog-test-users-service
+          imagePullPolicy: Always
           env:
             - name: PORT
               value: "5001"
@@ -330,7 +339,7 @@ spec:
             - name: SESSION_SECRET
               value: "your-super-secret-session-key"
             - name: FRONTEND_URL
-              value: "http://microservice-frontend-blog-test:3000"
+              value: "192.168.49.2:32312"
             - name: GOOGLE_CLIENT_ID
               value: "your-google-client-id"
             - name: GOOGLE_CLIENT_SECRET
@@ -360,6 +369,7 @@ spec:
       containers:
         - name: microservice-write-blog-test
           image: docker.io/mikamakusa/blog-test-write-service
+          imagePullPolicy: Always
           env:
             - name: PORT
               value: "5002"
@@ -382,7 +392,7 @@ spec:
             - name: SESSION_SECRET
               value: "your-super-secret-session-key"
             - name: FRONTEND_URL
-              value: "http://localhost:3000"
+              value: "192.168.49.2:32312"
             - name: GOOGLE_CLIENT_ID
               value: "your-google-client-id"
             - name: GOOGLE_CLIENT_SECRET
@@ -412,181 +422,263 @@ spec:
       containers:
         - name: microservice-frontend-blog-test
           image: docker.io/mikamakusa/blog-test-frontend
+          imagePullPolicy: Always
           env:
-            - name: AUTH_URI
-              value: "microservice-auth-blog-test.blog-test.svc.cluster.local:5000"
-            - name: ADS_URI
-              value: "microservice-ads-blog-test.blog-test.svc.cluster.local:5003"
-            - name: POSTS_URI
-              value: "microservice-write-blog-test.blog-test.svc.cluster.local:5002"
-            - name: EVENTS_URI
-              value: "microservice-events-blog-test.blog-test.svc.cluster.local:3001"
-            - name: MEDIAS_URI
-              value: "microservice-medias-blog-test.blog-test.svc.cluster.local:5004"
-            - name: METRICS_URI
-              value: "microservice-metrics-blog-test.blog-test.svc.cluster.local:5005"
-            - name: POLLS_URI
-              value: "microservice-polls-blog-test.blog-test.svc.cluster.local:5006"
-            - name: USERS_URI
-              value: "microservice-users-blog-test.blog-test.svc.cluster.local:5001"
+            - name: REACT_APP_AUTH_URI
+              value: "192.168.49.2:32467/auth"
+            - name: REACT_APP_ADS_URI
+              value: "192.168.49.2:32091/ads"
+            - name: REACT_APP_POSTS_URI
+              value: "192.168.49.2:30563/write"
+            - name: REACT_APP_EVENTS_URI
+              value: "192.168.49.2:31072/events"
+            - name: REACT_APP_MEDIAS_URI
+              value: "192.168.49.2:32059/medias"
+            - name: REACT_APP_METRICS_URI
+              value: "192.168.49.2:31841/metrics"
+            - name: REACT_APP_POLLS_URI
+              value: "192.168.49.2:30252/polls"
+            - name: REACT_APP_USERS_URI
+              value: "192.168.49.2:31463/users"
           ports:
             - containerPort: 3000
               name: http
               protocol: TCP
+      volumes:
+        - name: microservice-frontend-blog-test-config-map
+          configMap:
+            name: microservice-frontend-blog-test-config-map
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: microservice-events-blog-test
-  namespace: blog-test
-spec:
-  selector:
-    app: microservice-events-blog-test
-  ports:
-    - port: 3001
-      name: http
-      protocol: TCP
-  type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
+  labels:
+    app: microservice-ads-blog-test
   name: microservice-ads-blog-test
   namespace: blog-test
 spec:
-  selector:
-    app: microservice-ads-blog-test
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.111.25.215
+  clusterIPs:
+    - 10.111.25.215
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
   ports:
     - port: 5003
-      name: http
+      nodePort: 31011
       protocol: TCP
-  type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: microservice-medias-blog-test
-  namespace: blog-test
-spec:
+      targetPort: 5003
   selector:
-    app: microservice-medias-blog-test
-  ports:
-    - port: 5004
-      name: http
-      protocol: TCP
-  type: ClusterIP
+    app: microservice-ads-blog-test
+  type: LoadBalancer
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app: microservice-auth-blog-test
   name: microservice-auth-blog-test
   namespace: blog-test
 spec:
-  selector:
-    app: microservice-auth-blog-test
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.104.248.86
+  clusterIPs:
+    - 10.104.248.86
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
   ports:
     - port: 5000
-      name: http
+      nodePort: 32467
       protocol: TCP
-  type: ClusterIP
+      targetPort: 5000
+  selector:
+    app: microservice-auth-blog-test
+  type: LoadBalancer
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app: microservice-events-blog-test
   name: microservice-events-blog-test
   namespace: blog-test
 spec:
-  selector:
-    app: microservice-events-blog-test
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.99.138.222
+  clusterIPs:
+    - 10.99.138.222
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
   ports:
     - port: 3001
-      name: http
+      nodePort: 31072
       protocol: TCP
-  type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: microservice-metrics-blog-test
-  namespace: blog-test
-spec:
+      targetPort: 3001
   selector:
-    app: microservice-metrics-blog-test
-  ports:
-    - port: 5005
-      name: http
-      protocol: TCP
-  type: ClusterIP
+    app: microservice-events-blog-test
+  type: LoadBalancer
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: microservice-polls-blog-test
-  namespace: blog-test
-spec:
-  selector:
-    app: microservice-polls-blog-test
-  ports:
-    - port: 5006
-      name: http
-      protocol: TCP
-  type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: microservice-write-blog-test
-  namespace: blog-test
-spec:
-  selector:
-    app: microservice-write-blog-test
-  ports:
-    - port: 5002
-      name: http
-      protocol: TCP
-  type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: microservice-users-blog-test
-  namespace: blog-test
-spec:
-  selector:
-    app: microservice-users-blog-test
-  ports:
-    - port: 5001
-      name: http
-      protocol: TCP
-  type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
+  labels:
+    app: microservice-frontend-blog-test
   name: microservice-frontend-blog-test
   namespace: blog-test
 spec:
-  selector:
-    app: microservice-frontend-blog-test
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.104.128.34
+  clusterIPs:
+    - 10.104.128.34
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
   ports:
     - port: 3000
-      name: http
+      nodePort: 32312
       protocol: TCP
-  type: ClusterIP
+      targetPort: 3000
+  selector:
+    app: microservice-frontend-blog-test
+  type: LoadBalancer
 ---
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
+apiVersion: v1
+kind: Service
 metadata:
-  name: allow-ingress-only-from-frontend
+  labels:
+    app: microservice-medias-blog-test
+  name: microservice-medias-blog-test
   namespace: blog-test
 spec:
-  podSelector:
-    matchLabels:
-      role: frontend
-  policyTypes:
-  - Ingress
-  ingress:
-    - from:
-        - podSelector:
-            matchLabels:
-              role: frontend
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.109.230.241
+  clusterIPs:
+    - 10.109.230.241
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+    - port: 5004
+      nodePort: 32059
+      protocol: TCP
+      targetPort: 5004
+  selector:
+    app: microservice-medias-blog-test
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: microservice-metrics-blog-test
+  name: microservice-metrics-blog-test
+  namespace: blog-test
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.101.92.74
+  clusterIPs:
+    - 10.101.92.74
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+    - port: 5005
+      nodePort: 31841
+      protocol: TCP
+      targetPort: 5005
+  selector:
+    app: microservice-metrics-blog-test
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: microservice-polls-blog-test
+  name: microservice-polls-blog-test
+  namespace: blog-test
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.98.238.144
+  clusterIPs:
+    - 10.98.238.144
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+    - port: 5006
+      nodePort: 30252
+      protocol: TCP
+      targetPort: 5006
+  selector:
+    app: microservice-polls-blog-test
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: microservice-users-blog-test
+  name: microservice-users-blog-test
+  namespace: blog-test
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.107.219.213
+  clusterIPs:
+    - 10.107.219.213
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+    - port: 5001
+      nodePort: 31463
+      protocol: TCP
+      targetPort: 5001
+  selector:
+    app: microservice-users-blog-test
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: microservice-write-blog-test
+  name: microservice-write-blog-test
+  namespace: blog-test
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.109.159.9
+  clusterIPs:
+    - 10.109.159.9
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+    - port: 5002
+      nodePort: 30563
+      protocol: TCP
+      targetPort: 5002
+  selector:
+    app: microservice-write-blog-test
+  type: LoadBalancer
